@@ -1,273 +1,293 @@
+ 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Merkyriev Stream Hub</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MERKYRIEV Winter Stream Hub</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+* { box-sizing: border-box; }
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 22px 15px;
+  font-family: Arial, sans-serif;
+  color: white;
+  text-align: center;
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse at top, #244b80 0%, transparent 55%),
+    linear-gradient(160deg, #071426, #101b39 55%, #090b20);
+}
 
-    body {
-      margin: 0;
-      padding: 25px 16px;
-      min-height: 100vh;
-      font-family: Arial, sans-serif;
-      color: white;
-      text-align: center;
-      background:
-        radial-gradient(circle at top, #54208b 0%, transparent 45%),
-        linear-gradient(160deg, #10051d, #1b0b30 60%, #090411);
-    }
+.snow {
+  position: fixed;
+  top: -20px;
+  color: #fff;
+  pointer-events: none;
+  z-index: 5;
+  animation: snowfall linear infinite;
+  text-shadow: 0 0 10px #8bdcff;
+}
 
-    .header {
-      margin: 20px 0 30px;
-    }
+@keyframes snowfall {
+  to { transform: translateY(110vh) rotate(360deg); }
+}
 
-    .header h1 {
-      margin: 0;
-      font-size: 32px;
-      color: #d9a5ff;
-      text-shadow: 0 0 15px #a020f0;
-    }
+.header {
+  margin: 25px 0 30px;
+}
 
-    .header p {
-      color: #cbb4df;
-      font-size: 14px;
-    }
+.header h1 {
+  margin: 0;
+  font-size: 34px;
+  letter-spacing: 2px;
+  color: #c5eaff;
+  text-shadow: 0 0 12px #37aaff, 0 0 25px #5b8cff;
+}
 
-    .card {
-      max-width: 480px;
-      margin: 16px auto;
-      padding: 22px;
-      border: 1px solid #853bc1;
-      border-radius: 18px;
-      background: rgba(37, 15, 57, 0.88);
-      box-shadow: 0 0 18px rgba(160, 32, 240, 0.22);
-    }
+.header p {
+  color: #b8d9ff;
+  font-size: 14px;
+}
 
-    .twitch-card {
-      border: 2px solid #a64dff;
-      box-shadow: 0 0 25px rgba(160, 32, 240, 0.4);
-    }
+.winter-title {
+  color: #8edbff;
+  font-size: 12px;
+  letter-spacing: 4px;
+  margin-top: 10px;
+}
 
-    .card h2 {
-      margin: 0 0 16px;
-      font-size: 21px;
-    }
+.card {
+  position: relative;
+  max-width: 480px;
+  margin: 17px auto;
+  padding: 23px 20px;
+  border: 1px solid rgba(135, 211, 255, 0.65);
+  border-radius: 20px;
+  background: linear-gradient(
+    145deg,
+    rgba(35, 67, 110, 0.78),
+    rgba(13, 25, 54, 0.92)
+  );
+  box-shadow:
+    0 0 18px rgba(69, 169, 255, 0.2),
+    inset 0 0 18px rgba(126, 202, 255, 0.08);
+  backdrop-filter: blur(8px);
+}
 
-    .status {
-      margin: 12px 0;
-      font-size: 17px;
-      font-weight: bold;
-    }
+.twitch-card {
+  border: 2px solid #83cfff;
+  box-shadow: 0 0 25px rgba(65, 166, 255, 0.4);
+}
 
-    .online {
-      color: #ff4d72;
-    }
+.card h2 {
+  margin: 0 0 16px;
+  color: #d7f1ff;
+  font-size: 21px;
+  text-shadow: 0 0 10px #4baeff;
+}
 
-    .offline {
-      color: #aaa;
-    }
+.card p {
+  color: #c4d9f5;
+  font-size: 14px;
+  line-height: 1.5;
+}
 
-    .error {
-      color: #ffd166;
-    }
+.status {
+  margin: 14px 0;
+  font-size: 16px;
+  font-weight: bold;
+}
 
-    .dot {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      margin-right: 8px;
-      border-radius: 50%;
-      background: #ff3158;
-      animation: blink 1s infinite;
-    }
+.online { color: #ff607c; }
+.offline { color: #b9d8f3; }
+.error { color: #ffd166; }
 
-    @keyframes blink {
-      50% {
-        opacity: 0.2;
-        box-shadow: 0 0 15px #ff3158;
-      }
-    }
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: #ff3158;
+  animation: blink 1s infinite;
+}
 
-    .stream-info {
-      margin: 14px 0;
-      color: #e5d5f5;
-      font-size: 14px;
-      line-height: 1.6;
-      white-space: pre-line;
-      overflow-wrap: anywhere;
-    }
+@keyframes blink {
+  50% { opacity: 0.25; }
+}
 
-    .button {
-      display: block;
-      width: 100%;
-      margin-top: 12px;
-      padding: 14px;
-      border-radius: 12px;
-      color: white;
-      background: linear-gradient(90deg, #7727c9, #a83cff);
-      text-decoration: none;
-      font-weight: bold;
-      transition: 0.2s;
-    }
+.stream-info {
+  margin: 14px 0;
+  color: #d9edff;
+  font-size: 14px;
+  line-height: 1.7;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
 
-    .button:active {
-      transform: scale(0.97);
-    }
+.button {
+  display: block;
+  width: 100%;
+  margin-top: 13px;
+  padding: 14px;
+  border-radius: 13px;
+  color: #fff;
+  background: linear-gradient(90deg, #1766ad, #398fd7);
+  border: 1px solid #8bd5ff;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 0 13px rgba(74, 172, 255, 0.3);
+  transition: 0.2s;
+}
 
-    .telegram {
-      background: linear-gradient(90deg, #087bb5, #20a9e0);
-    }
+.button:active { transform: scale(0.97); }
 
-    .tiktok {
-      background: linear-gradient(90deg, #242424, #555);
-      border: 1px solid #888;
-    }
+.telegram {
+  background: linear-gradient(90deg, #087bb5, #20a9e0);
+}
 
-    .schedule {
-      color: #d9c4ed;
-      line-height: 1.7;
-      font-size: 15px;
-    }
+.tiktok {
+  background: linear-gradient(90deg, #202d46, #465c83);
+}
 
-    footer {
-      margin: 28px 0 10px;
-      color: #8f78a5;
-      font-size: 12px;
-    }
-  </style>
+.schedule {
+  color: #d1e8ff;
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+footer {
+  margin: 30px 0 12px;
+  color: #8baacb;
+  font-size: 12px;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="header">
-    <h1>MERKYRIEV</h1>
-    <p>Официальный Stream Hub</p>
+<div class="header">
+  <h1>❄ MERKYRIEV ❄</h1>
+  <div class="winter-title">WINTER STREAM HUB</div>
+  <p>Зимняя атмосфера вместе с Merkyriev</p>
+</div>
+
+<div class="card twitch-card">
+  <h2>📡 МОЙ TWITCH</h2>
+  <div id="status" class="status offline">
+    <span id="statusText">Проверка эфира...</span>
   </div>
-
-  <!-- TWITCH -->
-  <div class="card twitch-card">
-    <h2>📡 МОЙ TWITCH</h2>
-
-    <div id="status" class="status offline">
-      <span id="statusText">Проверка эфира...</span>
-    </div>
-
-    <div id="streamInfo" class="stream-info">
-      Подключаемся к Twitch...
-    </div>
-
-    <a class="button"
-       href="https://www.twitch.tv/aleksandr_merkyriev"
-       target="_blank">
-      ▶ СМОТРЕТЬ TWITCH
-    </a>
+  <div id="streamInfo" class="stream-info">
+    Подключаемся к Twitch...
   </div>
+  <a class="button"
+     href="https://www.twitch.tv/aleksandr_merkyriev"
+     target="_blank">
+    ▶ СМОТРЕТЬ TWITCH
+  </a>
+</div>
 
-  <!-- TELEGRAM -->
-  <div class="card">
-    <h2>💬 МОЙ TELEGRAM</h2>
-    <p>Новости, общение и информация о стримах!</p>
+<div class="card">
+  <h2>💬 МОЙ TELEGRAM</h2>
+  <p>Новости, общение и информация о стримах!</p>
+  <a class="button telegram"
+     href="https://t.me/MerkyrievCRMP"
+     target="_blank">
+    ✈ ПЕРЕЙТИ В TELEGRAM
+  </a>
+</div>
 
-    <a class="button telegram"
-       href="https://t.me/MerkyrievCRMP"
-       target="_blank">
-      ✈ ПЕРЕЙТИ В TELEGRAM
-    </a>
+<div class="card">
+  <h2>🎬 МОЙ TIKTOK</h2>
+  <p>Клипы, моменты со стримов и RADMIR RP!</p>
+  <a class="button tiktok"
+     href="https://www.tiktok.com/@twitch.merkyriev_"
+     target="_blank">
+    ♪ ПЕРЕЙТИ В TIKTOK
+  </a>
+</div>
+
+<div class="card">
+  <h2>🕒 РАСПИСАНИЕ СТРИМОВ</h2>
+  <div class="schedule">
+    Понедельник – Пятница<br>
+    Начало стрима: 18:00 МСК<br>
+    Игра: RADMIR RP
   </div>
+</div>
 
-  <!-- TIKTOK -->
-  <div class="card">
-    <h2>🎬 МОЙ TIKTOK</h2>
-    <p>Клипы, моменты со стримов и RADMIR RP!</p>
+<footer>
+  ❄ MERKYRIEV · WINTER EDITION ❄<br>
+  © Все права защищены
+</footer>
 
-    <a class="button tiktok"
-       href="https://www.tiktok.com/@twitch.merkyriev_"
-       target="_blank">
-      ♪ ПЕРЕЙТИ В TIKTOK
-    </a>
-  </div>
+<script>
+const statusBox = document.getElementById("status");
+const statusText = document.getElementById("statusText");
+const streamInfo = document.getElementById("streamInfo");
 
-  <!-- SCHEDULE -->
-  <div class="card">
-    <h2>🕒 РАСПИСАНИЕ СТРИМОВ</h2>
+const twitchApi =
+  "https://stream-hub-1-abin.onrender.com/twitch-status";
 
-    <div class="schedule">
-      Понедельник – Пятница<br>
-      Начало стрима: 18:00 МСК<br>
-      Игра: RADMIR RP
-    </div>
-  </div>
+async function checkTwitch() {
+  try {
+    const response = await fetch(twitchApi, {
+      cache: "no-store"
+    });
 
-  <footer>
-    © MERKYRIEV · Все права защищены
-  </footer>
+    if (!response.ok) throw new Error("Server error");
 
-  <script>
-    const statusBox = document.getElementById("status");
-    const statusText = document.getElementById("statusText");
-    const streamInfo = document.getElementById("streamInfo");
+    const data = await response.json();
 
-    const twitchApi =
-      "https://stream-hub-1-abin.onrender.com/twitch-status";
+    if (data.online) {
+      statusBox.className = "status online";
+      statusText.innerHTML =
+        '<span class="dot"></span>MERKYRIEV В ЭФИРЕ!';
 
-    async function checkTwitch() {
-      try {
-        const response = await fetch(twitchApi, {
-          cache: "no-store"
-        });
-
-        if (!response.ok) {
-          throw new Error("Ошибка сервера");
-        }
-
-        const data = await response.json();
-
-        if (data.online) {
-          statusBox.className = "status online";
-          statusText.innerHTML =
-            '<span class="dot"></span>MERKYRIEV В ЭФИРЕ!';
-
-          const title = data.title || "Прямой эфир";
-          const viewers = Number(data.viewers || 0);
-
-          streamInfo.textContent =
-            "🎮 " + title +
-            "\n👀 Зрителей: " +
-            viewers.toLocaleString("ru-RU");
-
-        } else {
-          statusBox.className = "status offline";
-          statusText.textContent = "⚫ СЕЙЧАС НЕ В ЭФИРЕ";
-
-          streamInfo.textContent =
-            "Следи за обновлениями и не пропусти следующий стрим!";
-        }
-
-      } catch (error) {
-        statusBox.className = "status error";
-        statusText.textContent =
-          "⚪ СТАТУС ВРЕМЕННО НЕДОСТУПЕН";
-
-        streamInfo.textContent =
-          "Не удалось проверить Twitch. Попробуй обновить страницу.";
-      }
+      streamInfo.textContent =
+        "🎮 " + (data.title || "Прямой эфир") +
+        "\n👀 Зрителей: " +
+        Number(data.viewers || 0).toLocaleString("ru-RU");
+    } else {
+      statusBox.className = "status offline";
+      statusText.textContent = "⚫ СЕЙЧАС НЕ В ЭФИРЕ";
+      streamInfo.textContent =
+        "Следи за обновлениями и не пропусти следующий стрим!";
     }
+  } catch (error) {
+    statusBox.className = "status error";
+    statusText.textContent = "⚪ СТАТУС ВРЕМЕННО НЕДОСТУПЕН";
+    streamInfo.textContent =
+      "Не удалось проверить Twitch. Попробуй обновить страницу.";
+  }
+}
 
-    checkTwitch();
-    setInterval(checkTwitch, 60000);
+checkTwitch();
+setInterval(checkTwitch, 60000);
 
-    if (window.Telegram && window.Telegram.WebApp) {
-      window.Telegram.WebApp.ready();
-      window.Telegram.WebApp.expand();
-    }
-  </script>
+if (window.Telegram && window.Telegram.WebApp) {
+  window.Telegram.WebApp.ready();
+  window.Telegram.WebApp.expand();
+}
+
+// Анимированный снег
+for (let i = 0; i < 35; i++) {
+  const snow = document.createElement("div");
+  snow.className = "snow";
+  snow.textContent = "❄";
+  snow.style.left = Math.random() * 100 + "vw";
+  snow.style.fontSize = (10 + Math.random() * 16) + "px";
+  snow.style.opacity = 0.3 + Math.random() * 0.7;
+  snow.style.animationDuration = (6 + Math.random() * 10) + "s";
+  snow.style.animationDelay = (-Math.random() * 15) + "s";
+  document.body.appendChild(snow);
+}
+</script>
 
 </body>
 </html>
