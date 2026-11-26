@@ -1,134 +1,170 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Aleksandr Merkyriev | Stream Hub</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STREAM HUB | Merkyriev</title>
 
-<style>
-* { box-sizing: border-box; }
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-body {
-    margin: 0;
-    padding: 24px 18px;
-    background: #100b1c;
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-.logo {
-    color: #a970ff;
-    font-size: 28px;
-    font-weight: 900;
-    margin: 30px 0 8px;
-}
+        body {
+            min-height: 100vh;
+            padding: 30px 18px;
+            font-family: Arial, sans-serif;
+            color: white;
+            background:
+                radial-gradient(circle at top, #54218a 0%, transparent 45%),
+                linear-gradient(160deg, #10091c, #1b1030 60%, #090610);
+        }
 
-.subtitle { color: #c9b6e8; }
+        .container {
+            max-width: 480px;
+            margin: auto;
+        }
 
-.card {
-    background: linear-gradient(145deg,#321957,#1d1230);
-    border: 1px solid #6336a0;
-    border-radius: 20px;
-    padding: 22px 16px;
-    margin: 20px 0;
-}
+        .header {
+            text-align: center;
+            padding: 25px 10px 30px;
+        }
 
-.button {
-    display: block;
-    padding: 16px;
-    margin-top: 15px;
-    border-radius: 13px;
-    background: #9146ff;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-}
+        .logo {
+            font-size: 36px;
+            font-weight: 900;
+            color: #c69aff;
+            text-shadow: 0 0 20px #9b4dff;
+        }
 
-.tiktok { background: #292331; }
+        .subtitle {
+            margin-top: 10px;
+            color: #c8b8dc;
+            font-size: 14px;
+        }
 
-.day {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #49315e;
-}
+        .card {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(190, 130, 255, 0.25);
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+        }
 
-.time { color: #c49aff; }
+        .card h2 {
+            font-size: 19px;
+            margin-bottom: 12px;
+        }
 
-.footer {
-    color: #806b9c;
-    font-size: 12px;
-    margin-top: 30px;
-}
-</style>
+        .card p {
+            color: #c9bfd5;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #9147ff, #b45cff);
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            font-size: 15px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .button:active {
+            transform: scale(0.97);
+        }
+
+        .footer {
+            text-align: center;
+            color: #8f819f;
+            font-size: 12px;
+            padding: 15px 0;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="logo">💜 STREAM HUB</div>
-<p class="subtitle">ALEKSANDR MERKYRIEV</p>
+    <div class="container">
 
-<div class="card">
-<h2>📡 МОЙ TWITCH</h2>
-<p id="status">Проверка статуса...</p>
-<a class="button"
-href="https://www.twitch.tv/aleksandr_merkyriev">
-▶ СМОТРЕТЬ TWITCH
-</a>
-</div>
+        <div class="header">
+            <div class="logo">💜 MERKYRIEV</div>
+            <div class="subtitle">
+                Официальный STREAM HUB
+            </div>
+        </div>
 
-<div class="card">
-<h2>📅 РАСПИСАНИЕ</h2>
+        <div class="card">
+            <h2>🎮 МОЙ TWITCH</h2>
+            <p>
+                Смотри прямые эфиры, общайся со мной
+                и не пропускай новые стримы!
+            </p>
+            <a class="button"
+               href="https://www.twitch.tv/aleksandr_merkyriev"
+               target="_blank">
+                ▶ СМОТРЕТЬ TWITCH
+            </a>
+        </div>
 
-<div class="day">
-<span>Понедельник</span>
-<span class="time">18:00</span>
-</div>
-<div class="day">
-<span>Вторник</span>
-<span class="time">18:00</span>
-</div>
-<div class="day">
-<span>Среда</span>
-<span class="time">18:00</span>
-</div>
-<div class="day">
-<span>Четверг</span>
-<span class="time">18:00</span>
-</div>
-<div class="day">
-<span>Пятница</span>
-<span class="time">18:00</span>
-</div>
+        <div class="card">
+            <h2>💬 МОЙ TELEGRAM</h2>
+            <p>
+                Новости, общение и объявления
+                о предстоящих стримах.
+            </p>
+            <a class="button"
+               href="https://t.me/MerkyrievCRMP"
+               target="_blank">
+                ✈ ОТКРЫТЬ TELEGRAM
+            </a>
+        </div>
 
-<p>🕒 Москва (UTC+3)</p>
-</div>
+        <div class="card">
+            <h2>🎵 МОЙ TIKTOK</h2>
+            <p>
+                Короткие видео, моменты со стримов
+                и контент по RADMIR RP.
+            </p>
+            <a class="button"
+               href="https://www.tiktok.com/@twitch.merkyriev_"
+               target="_blank">
+                ▶ ОТКРЫТЬ TIKTOK
+            </a>
+        </div>
 
-<div class="card">
-<h2>🎵 МОЙ TIKTOK</h2>
-<p>Короткие видео и лучшие моменты!</p>
-<a class="button tiktok"
-href="https://www.tiktok.com/@twitch.merkyriev_">
-ОТКРЫТЬ TIKTOK
-</a>
-</div>
+        <div class="card">
+            <h2>📅 РАСПИСАНИЕ СТРИМОВ</h2>
+            <p>
+                Понедельник – пятница<br>
+                Начало в 18:00 по Москве.
+            </p>
+        </div>
 
-<div class="footer">
-© ALEKSANDR MERKYRIEV
-<br>OFFICIAL STREAM HUB
-</div>
+        <div class="footer">
+            © 2026 MERKYRIEV STREAM HUB
+        </div>
 
-<script>
-const tg = window.Telegram.WebApp;
-tg.ready();
-tg.expand();
+    </div>
 
-document.getElementById("status").textContent =
-"💜 Перейти на мой Twitch";
+    <script>
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand();
+        }
+    </script>
 
-</script>
 </body>
 </html>
