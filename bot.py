@@ -1,4 +1,7 @@
 import os
+import threading
+
+from flask import Flask
 from telegram import (
     Update,
     InlineKeyboardButton,
@@ -13,6 +16,14 @@ from telegram.ext import (
 TWITCH_URL = "https://www.twitch.tv/aleksandr_merkyriev"
 TELEGRAM_URL = "https://t.me/MerkyrievCRMP"
 TIKTOK_URL = "https://www.tiktok.com/@twitch.merkyriev_"
+
+web_app = Flask(__name__)
+
+
+@web_app.route("/")
+def home():
+    return "STREAM HUB is running!"
+
 
 async def start(
     update: Update,
@@ -48,6 +59,7 @@ async def start(
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
+
 async def schedule(
     update: Update,
     context: ContextTypes.DEFAULT_TYPE
@@ -58,7 +70,8 @@ async def schedule(
         "💜 Жду тебя на стриме!"
     )
 
-def main():
+
+def run_bot():
     token = os.environ.get("TELEGRAM_BOT_TOKEN")
 
     if not token:
@@ -66,12 +79,27 @@ def main():
             "Не задан TELEGRAM_BOT_TOKEN"
         )
 
-    app = Application.builder().token(token).build()
+    bot_app = Application.builder().token(token).build()
 
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("schedule", schedule))
+    bot_app.add_handler(CommandHandler("start", start))
+    bot_app.add_handler(CommandHandler("schedule", schedule))
 
-    app.run_polling()
+    bot_app.run_polling(stop_signals=None)
+
+
+def main():
+    threading.Thread(
+        target=run_bot,
+        daemon=True
+    ).start()
+
+    port = int(os.environ.get("PORT", "10000"))
+
+    web_app.run(
+        host="0.0.0.0",
+        port=port
+    )
+
 
 if __name__ == "__main__":
     main()
