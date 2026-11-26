@@ -1,3 +1,5 @@
+
+
 import os
 import threading
 import requests
@@ -16,14 +18,28 @@ BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 
 web_app = Flask(__name__)
 
+# Разрешаем сайту GitHub Pages обращаться к серверу
+@web_app.after_request
+def add_cors_headers(response):
+    response.headers["Access-Control-Allow-Origin"] = (
+        "https://faraeasdas-alt.github.io"
+    )
+    response.headers["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    return response
+
+
 @web_app.route("/")
 def home():
     return "STREAM HUB is running!"
 
+
 @web_app.route("/twitch-status")
 def twitch_status():
     if not CLIENT_ID or not CLIENT_SECRET:
-        return jsonify({"online": False, "error": "Twitch API not configured"})
+        return jsonify({
+            "online": False,
+            "error": "Twitch API not configured"
+        }), 500
 
     try:
         token_response = requests.post(
@@ -36,6 +52,7 @@ def twitch_status():
             timeout=10
         )
         token_response.raise_for_status()
+
         access_token = token_response.json()["access_token"]
 
         response = requests.get(
@@ -44,10 +61,13 @@ def twitch_status():
                 "Client-ID": CLIENT_ID,
                 "Authorization": f"Bearer {access_token}"
             },
-            params={"user_login": "aleksandr_merkyriev"},
+            params={
+                "user_login": "aleksandr_merkyriev"
+            },
             timeout=10
         )
         response.raise_for_status()
+
         streams = response.json().get("data", [])
 
         if streams:
@@ -59,8 +79,13 @@ def twitch_status():
 
         return jsonify({"online": False})
 
-    except Exception:
-        return jsonify({"online": False, "error": "Twitch check failed"}), 500
+    except Exception as error:
+        print("Twitch API error:", error)
+        return jsonify({
+            "online": False,
+            "error": "Twitch check failed"
+        }), 500
+
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
@@ -71,10 +96,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_text(
         "💜 Привет! Это официальный бот Merkyriev.\n\n"
-        "📅 Стримы: понедельник–пятница в 18:00 по Москве.\n\n"
+        "Здесь ты узнаешь о стримах и новостях.\n\n"
+        "📅 Стримы: понедельник–пятница "
+        "в 18:00 по Москве.\n\n"
         "Нажми на кнопку ниже!",
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
+
 
 async def schedule(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
@@ -82,6 +110,7 @@ async def schedule(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "Понедельник–пятница — 18:00 по Москве.\n"
         "💜 Жду тебя на стриме!"
     )
+
 
 def run_bot():
     if not BOT_TOKEN:
@@ -92,10 +121,13 @@ def run_bot():
     bot.add_handler(CommandHandler("schedule", schedule))
     bot.run_polling(stop_signals=None)
 
+
 def main():
     threading.Thread(target=run_bot, daemon=True).start()
+
     port = int(os.environ.get("PORT", "10000"))
     web_app.run(host="0.0.0.0", port=port)
+
 
 if __name__ == "__main__":
     main()
