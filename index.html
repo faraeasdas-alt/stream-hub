@@ -1,218 +1,273 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STREAM HUB | Merkyriev</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merkyriev Stream Hub</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-        body {
-            min-height: 100vh;
-            padding: 30px 18px;
-            font-family: Arial, sans-serif;
-            color: white;
-            background:
-                radial-gradient(circle at top, #54218a, transparent 45%),
-                linear-gradient(160deg, #10091c, #1b1030, #090610);
-        }
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-        .container {
-            max-width: 480px;
-            margin: auto;
-        }
+    body {
+      margin: 0;
+      padding: 25px 16px;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+      background:
+        radial-gradient(circle at top, #54208b 0%, transparent 45%),
+        linear-gradient(160deg, #10051d, #1b0b30 60%, #090411);
+    }
 
-        .header {
-            text-align: center;
-            padding: 25px 10px 30px;
-        }
+    .header {
+      margin: 20px 0 30px;
+    }
 
-        .logo {
-            font-size: 36px;
-            font-weight: 900;
-            color: #c69aff;
-            text-shadow: 0 0 20px #9b4dff;
-        }
+    .header h1 {
+      margin: 0;
+      font-size: 32px;
+      color: #d9a5ff;
+      text-shadow: 0 0 15px #a020f0;
+    }
 
-        .subtitle {
-            margin-top: 10px;
-            color: #c8b8dc;
-            font-size: 14px;
-        }
+    .header p {
+      color: #cbb4df;
+      font-size: 14px;
+    }
 
-        .card {
-            background: rgba(255,255,255,.07);
-            border: 1px solid rgba(190,130,255,.25);
-            border-radius: 18px;
-            padding: 22px;
-            margin-bottom: 18px;
-            box-shadow: 0 8px 25px rgba(0,0,0,.25);
-        }
+    .card {
+      max-width: 480px;
+      margin: 16px auto;
+      padding: 22px;
+      border: 1px solid #853bc1;
+      border-radius: 18px;
+      background: rgba(37, 15, 57, 0.88);
+      box-shadow: 0 0 18px rgba(160, 32, 240, 0.22);
+    }
 
-        .card h2 {
-            font-size: 19px;
-            margin-bottom: 12px;
-        }
+    .twitch-card {
+      border: 2px solid #a64dff;
+      box-shadow: 0 0 25px rgba(160, 32, 240, 0.4);
+    }
 
-        .card p {
-            color: #c9bfd5;
-            font-size: 14px;
-            line-height: 1.5;
-            margin-bottom: 18px;
-        }
+    .card h2 {
+      margin: 0 0 16px;
+      font-size: 21px;
+    }
 
-        .status {
-            display: inline-block;
-            padding: 10px 14px;
-            border-radius: 10px;
-            background: rgba(255,255,255,.08);
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
+    .status {
+      margin: 12px 0;
+      font-size: 17px;
+      font-weight: bold;
+    }
 
-        .online {
-            color: #ff5555;
-        }
+    .online {
+      color: #ff4d72;
+    }
 
-        .offline {
-            color: #b9aabe;
-        }
+    .offline {
+      color: #aaa;
+    }
 
-        .button {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            border-radius: 12px;
-            background: linear-gradient(90deg,#9147ff,#b45cff);
-            color: white;
-            text-decoration: none;
-            text-align: center;
-            font-size: 15px;
-            font-weight: bold;
-            margin-top: 5px;
-        }
+    .error {
+      color: #ffd166;
+    }
 
-        .footer {
-            text-align: center;
-            color: #8f819f;
-            font-size: 12px;
-            padding: 15px 0;
-        }
-    </style>
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin-right: 8px;
+      border-radius: 50%;
+      background: #ff3158;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0.2;
+        box-shadow: 0 0 15px #ff3158;
+      }
+    }
+
+    .stream-info {
+      margin: 14px 0;
+      color: #e5d5f5;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-line;
+      overflow-wrap: anywhere;
+    }
+
+    .button {
+      display: block;
+      width: 100%;
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 12px;
+      color: white;
+      background: linear-gradient(90deg, #7727c9, #a83cff);
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .button:active {
+      transform: scale(0.97);
+    }
+
+    .telegram {
+      background: linear-gradient(90deg, #087bb5, #20a9e0);
+    }
+
+    .tiktok {
+      background: linear-gradient(90deg, #242424, #555);
+      border: 1px solid #888;
+    }
+
+    .schedule {
+      color: #d9c4ed;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    footer {
+      margin: 28px 0 10px;
+      color: #8f78a5;
+      font-size: 12px;
+    }
+  </style>
 </head>
 
 <body>
-<div class="container">
 
-    <div class="header">
-        <div class="logo">💜 MERKYRIEV</div>
-        <div class="subtitle">Официальный STREAM HUB</div>
+  <div class="header">
+    <h1>MERKYRIEV</h1>
+    <p>Официальный Stream Hub</p>
+  </div>
+
+  <!-- TWITCH -->
+  <div class="card twitch-card">
+    <h2>📡 МОЙ TWITCH</h2>
+
+    <div id="status" class="status offline">
+      <span id="statusText">Проверка эфира...</span>
     </div>
 
-    <div class="card">
-        <h2>🎮 МОЙ TWITCH</h2>
-
-        <div id="status" class="status offline">
-            ⚪ Проверяем статус...
-        </div>
-
-        <p id="streamInfo">
-            Проверяем, начался ли эфир.
-        </p>
-
-        <a class="button"
-           href="https://www.twitch.tv/aleksandr_merkyriev"
-           target="_blank">
-            ▶ СМОТРЕТЬ TWITCH
-        </a>
+    <div id="streamInfo" class="stream-info">
+      Подключаемся к Twitch...
     </div>
 
-    <div class="card">
-        <h2>💬 МОЙ TELEGRAM</h2>
-        <p>Новости, общение и объявления о стримах.</p>
-        <a class="button"
-           href="https://t.me/MerkyrievCRMP"
-           target="_blank">
-            ✈ ОТКРЫТЬ TELEGRAM
-        </a>
+    <a class="button"
+       href="https://www.twitch.tv/aleksandr_merkyriev"
+       target="_blank">
+      ▶ СМОТРЕТЬ TWITCH
+    </a>
+  </div>
+
+  <!-- TELEGRAM -->
+  <div class="card">
+    <h2>💬 МОЙ TELEGRAM</h2>
+    <p>Новости, общение и информация о стримах!</p>
+
+    <a class="button telegram"
+       href="https://t.me/MerkyrievCRMP"
+       target="_blank">
+      ✈ ПЕРЕЙТИ В TELEGRAM
+    </a>
+  </div>
+
+  <!-- TIKTOK -->
+  <div class="card">
+    <h2>🎬 МОЙ TIKTOK</h2>
+    <p>Клипы, моменты со стримов и RADMIR RP!</p>
+
+    <a class="button tiktok"
+       href="https://www.tiktok.com/@twitch.merkyriev_"
+       target="_blank">
+      ♪ ПЕРЕЙТИ В TIKTOK
+    </a>
+  </div>
+
+  <!-- SCHEDULE -->
+  <div class="card">
+    <h2>🕒 РАСПИСАНИЕ СТРИМОВ</h2>
+
+    <div class="schedule">
+      Понедельник – Пятница<br>
+      Начало стрима: 18:00 МСК<br>
+      Игра: RADMIR RP
     </div>
+  </div>
 
-    <div class="card">
-        <h2>🎵 МОЙ TIKTOK</h2>
-        <p>Короткие видео, моменты со стримов и RADMIR RP.</p>
-        <a class="button"
-           href="https://www.tiktok.com/@twitch.merkyriev_"
-           target="_blank">
-            ▶ ОТКРЫТЬ TIKTOK
-        </a>
-    </div>
+  <footer>
+    © MERKYRIEV · Все права защищены
+  </footer>
 
-    <div class="card">
-        <h2>📅 РАСПИСАНИЕ СТРИМОВ</h2>
-        <p>
-            Понедельник – пятница<br>
-            Начало в 18:00 по Москве.
-        </p>
-    </div>
+  <script>
+    const statusBox = document.getElementById("status");
+    const statusText = document.getElementById("statusText");
+    const streamInfo = document.getElementById("streamInfo");
 
-    <div class="footer">
-        © 2026 MERKYRIEV STREAM HUB
-    </div>
-
-</div>
-
-<script>
-    if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
-    }
+    const twitchApi =
+      "https://stream-hub-1-abin.onrender.com/twitch-status";
 
     async function checkTwitch() {
-        const status = document.getElementById("status");
-        const info = document.getElementById("streamInfo");
+      try {
+        const response = await fetch(twitchApi, {
+          cache: "no-store"
+        });
 
-        try {
-            const response = await fetch(
-                "https://stream-hub-1-abin.onrender.com/twitch-status"
-            );
-
-            if (!response.ok) {
-                throw new Error("Server error");
-            }
-
-            const data = await response.json();
-
-            if (data.online) {
-                status.textContent = "🔴 MERKYRIEV В ЭФИРЕ!";
-                status.className = "status online";
-
-                info.textContent =
-                    "🔥 " + (data.title || "Прямой эфир") +
-                    " | 👀 Зрителей: " + data.viewers;
-            } else {
-                status.textContent = "⚫ СЕЙЧАС НЕ В ЭФИРЕ";
-                status.className = "status offline";
-                info.textContent =
-                    "Следи за расписанием и не пропускай следующий стрим!";
-            }
-        } catch (error) {
-            status.textContent = "⚪ СТАТУС ВРЕМЕННО НЕДОСТУПЕН";
-            status.className = "status offline";
-            info.textContent = "Попробуй обновить страницу позже.";
+        if (!response.ok) {
+          throw new Error("Ошибка сервера");
         }
+
+        const data = await response.json();
+
+        if (data.online) {
+          statusBox.className = "status online";
+          statusText.innerHTML =
+            '<span class="dot"></span>MERKYRIEV В ЭФИРЕ!';
+
+          const title = data.title || "Прямой эфир";
+          const viewers = Number(data.viewers || 0);
+
+          streamInfo.textContent =
+            "🎮 " + title +
+            "\n👀 Зрителей: " +
+            viewers.toLocaleString("ru-RU");
+
+        } else {
+          statusBox.className = "status offline";
+          statusText.textContent = "⚫ СЕЙЧАС НЕ В ЭФИРЕ";
+
+          streamInfo.textContent =
+            "Следи за обновлениями и не пропусти следующий стрим!";
+        }
+
+      } catch (error) {
+        statusBox.className = "status error";
+        statusText.textContent =
+          "⚪ СТАТУС ВРЕМЕННО НЕДОСТУПЕН";
+
+        streamInfo.textContent =
+          "Не удалось проверить Twitch. Попробуй обновить страницу.";
+      }
     }
 
     checkTwitch();
     setInterval(checkTwitch, 60000);
-</script>
+
+    if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.ready();
+      window.Telegram.WebApp.expand();
+    }
+  </script>
 
 </body>
 </html>
-
