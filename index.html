@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aleksandr Merkyriev | Stream Hub</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 24px 18px;
+    background: #100b1c;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.logo {
+    color: #a970ff;
+    font-size: 28px;
+    font-weight: 900;
+    margin: 30px 0 8px;
+}
+
+.subtitle { color: #c9b6e8; }
+
+.card {
+    background: linear-gradient(145deg,#321957,#1d1230);
+    border: 1px solid #6336a0;
+    border-radius: 20px;
+    padding: 22px 16px;
+    margin: 20px 0;
+}
+
+.button {
+    display: block;
+    padding: 16px;
+    margin-top: 15px;
+    border-radius: 13px;
+    background: #9146ff;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.tiktok { background: #292331; }
+
+.day {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #49315e;
+}
+
+.time { color: #c49aff; }
+
+.footer {
+    color: #806b9c;
+    font-size: 12px;
+    margin-top: 30px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="logo">💜 STREAM HUB</div>
+<p class="subtitle">ALEKSANDR MERKYRIEV</p>
+
+<div class="card">
+<h2>📡 МОЙ TWITCH</h2>
+<p id="status">Проверка статуса...</p>
+<a class="button"
+href="https://www.twitch.tv/aleksandr_merkyriev">
+▶ СМОТРЕТЬ TWITCH
+</a>
+</div>
+
+<div class="card">
+<h2>📅 РАСПИСАНИЕ</h2>
+
+<div class="day">
+<span>Понедельник</span>
+<span class="time">18:00</span>
+</div>
+<div class="day">
+<span>Вторник</span>
+<span class="time">18:00</span>
+</div>
+<div class="day">
+<span>Среда</span>
+<span class="time">18:00</span>
+</div>
+<div class="day">
+<span>Четверг</span>
+<span class="time">18:00</span>
+</div>
+<div class="day">
+<span>Пятница</span>
+<span class="time">18:00</span>
+</div>
+
+<p>🕒 Москва (UTC+3)</p>
+</div>
+
+<div class="card">
+<h2>🎵 МОЙ TIKTOK</h2>
+<p>Короткие видео и лучшие моменты!</p>
+<a class="button tiktok"
+href="https://www.tiktok.com/@twitch.merkyriev_">
+ОТКРЫТЬ TIKTOK
+</a>
+</div>
+
+<div class="footer">
+© ALEKSANDR MERKYRIEV
+<br>OFFICIAL STREAM HUB
+</div>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+document.getElementById("status").textContent =
+"💜 Перейти на мой Twitch";
+
+</script>
+</body>
+</html>
